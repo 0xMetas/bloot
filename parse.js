@@ -2,14 +2,14 @@
 const fs = require("fs");
 
 (async () => {
-  // Load loot data
-  const data = await fs.readFileSync("./output/loot.json");
-  const loot = JSON.parse(data);
+  // Load bloot data
+  const data = await fs.readFileSync("./output/bloot.json");
+  const bloot = JSON.parse(data);
 
   // Calculate attribute rarities
   let rarityIndex = {};
-  for (let i = 0; i < loot.length; i++) {
-    const attributes = loot[i][(i + 1).toString()];
+  for (let i = 0; i < bloot.length; i++) {
+    const attributes = bloot[i][(i + 1).toString()];
 
     // Add up number of occurences of attributes
     for (const attribute of Object.values(attributes)) {
@@ -27,53 +27,53 @@ const fs = require("fs");
 
   // Calculate occurence scores
   let scores = [];
-  for (let i = 0; i < loot.length; i++) {
+  for (let i = 0; i < bloot.length; i++) {
     let score = 0;
-    const attributes = loot[i][(i + 1).toString()];
+    const attributes = bloot[i][(i + 1).toString()];
 
     for (const attribute of Object.values(attributes)) {
       score += rarityIndex[attribute];
     }
-    scores.push({ lootId: i + 1, score });
+    scores.push({ blootId: i + 1, score });
   }
 
   // Sort by score
   scores = scores.sort((a, b) => a.score - b.score);
   // Sort by index of score
-  scores = scores.map((loot, i) => ({
-    ...loot,
+  scores = scores.map((bloot, i) => ({
+    ...bloot,
     rarest: i + 1,
   }));
 
-  // Print loot rarity by score
+  // Print bloot rarity by score
   await fs.writeFileSync("./output/rare.json", JSON.stringify(scores));
 
   // Calculate pure probability
   let probability = [];
-  for (let i = 0; i < loot.length; i++) {
+  for (let i = 0; i < bloot.length; i++) {
     let scores = [];
-    const attributes = loot[i][(i + 1).toString()];
+    const attributes = bloot[i][(i + 1).toString()];
 
     for (const attribute of Object.values(attributes)) {
-      // Collect probability of individual attribute occurences
+      // Collect probability of individual attribute occurrences
       scores.push(rarityIndex[attribute] / 8000);
     }
 
-    // Multiply probabilites P(A and B) = P(A) * P(B)
+    // Multiply probabilities P(A and B) = P(A) * P(B)
     const p = scores.reduce((a, b) => a * b);
-    probability.push({ lootId: i + 1, score: p });
+    probability.push({ blootId: i + 1, score: p });
   }
 
   // Sort by probability
   probability = probability.sort((a, b) => a.score - b.score);
   // Sort by index of probability
-  probability = probability.map((loot, i) => ({
-    ...loot,
-    score: Math.abs(Math.log(loot.score)),
+  probability = probability.map((bloot, i) => ({
+    ...bloot,
+    score: Math.abs(Math.log(bloot.score)),
     rarest: i + 1,
   }));
 
-  // Print loot rarity by score
+  // Print bloot rarity by score
   await fs.writeFileSync(
     "./output/probability.json",
     JSON.stringify(probability)
