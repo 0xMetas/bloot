@@ -11,7 +11,7 @@ const fs = require("fs");
   for (let i = 0; i < bloot.length; i++) {
     const attributes = bloot[i][(i + 1).toString()];
 
-    // Add up number of occurences of attributes
+    // Add up number of occurrences of attributes
     for (const attribute of Object.values(attributes)) {
       rarityIndex[attribute] = rarityIndex[attribute]
         ? rarityIndex[attribute] + 1
@@ -19,13 +19,13 @@ const fs = require("fs");
     }
   }
 
-  // Output occurences
+  // Output occurrences
   await fs.writeFileSync(
-    "./output/occurences.json",
+    "./output/occurrences.json",
     JSON.stringify(rarityIndex)
   );
 
-  // Calculate occurence scores
+  // Calculate occurrence scores
   let scores = [];
   for (let i = 0; i < bloot.length; i++) {
     let score = 0;

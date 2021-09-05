@@ -1,7 +1,7 @@
 {
-  "name": "dhof-loot",
+  "name": "bloot",
   "version": "1.0.0",
-  "description": "Collects details about the Loot project",
+  "description": "Collects details about the Bloot project",
   "main": "index.js",
   "scripts": {
     "collect": "node index.js",
@@ -13,8 +13,13 @@
     "words",
     "ethereum"
   ],
-  "author": "Anish Agnihotri",
-  "license": "MIT",
+  "author": "Kaan Tasbas",
+  "contributors": [
+    {
+      "author": "Anish Agnihotri"
+    }
+  ],
+  "license": "Unlicense",
   "dependencies": {
     "ethers": "^5.4.5",
     "keccak": "^3.0.1",
