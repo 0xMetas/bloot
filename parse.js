@@ -19,10 +19,20 @@ const fs = require("fs");
     }
   }
 
+  // This isn't standard but lets sort JSON object for readability
+  var sorted = Object.entries(rarityIndex)
+    .sort(([,a],[,b]) => a - b)
+    .reduce((r, [k, v]) => ({
+      ...r,
+      [k]: v
+    }),
+    {}
+    );
+
   // Output occurrences
   await fs.writeFileSync(
     "./output/occurrences.json",
-    JSON.stringify(rarityIndex)
+    JSON.stringify(sorted)
   );
 
   // Calculate occurrence scores
@@ -56,7 +66,7 @@ const fs = require("fs");
 
     for (const attribute of Object.values(attributes)) {
       // Collect probability of individual attribute occurrences
-      scores.push(rarityIndex[attribute] / 8000);
+      scores.push(rarityIndex[attribute] / 8008);
     }
 
     // Multiply probabilities P(A and B) = P(A) * P(B)
